@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Command Widget</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@2.6.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="commandOutput" class="mx-auto container max-w-xl pt-4 font-bold text-xl">Waiting for command output...</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function runCommand() {
+                fetch('http://localhost:3123/progress')
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                        document.getElementById('commandOutput').innerText = data;
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            // Run command immediately on load
+            runCommand();
+
+            // Set up polling every 30 seconds
+            setInterval(runCommand, 30000);
+        });
+    </script>
+</body>
+</html>
